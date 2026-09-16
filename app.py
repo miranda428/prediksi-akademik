@@ -38,7 +38,7 @@ ROLES = {
 }
 
 DEFAULT_USERS = [
-    ("admin", "Admin@123", "Super Admin", "Administrator Sistem"),
+    ("admin", "Admin@123", "Administrator", "Administrator Sistem"),
     ("operator01", "Operator@123", "Operator", "Operator Akademik"),
     ("GURU001", "Guru@123", "Guru/Wali Kelas", "Guru/Wali Kelas"),
     ("KEPSEK01", "Kepsek@123", "Kepala Sekolah", "Kepala Sekolah"),
