@@ -8,7 +8,7 @@ from datetime import datetime
 # KONFIGURASI
 # ============================================================
 st.set_page_config(
-    page_title="AkademikPredict | Prediksi Prestasi",
+    page_title="Prediksi Akademik | Prediksi Prestasi",
     page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -37,7 +37,7 @@ ROLES = {
     "Orang Tua/Wali": ["Dashboard", "Perkembangan", "Konsultasi", "Panduan"],
 }
 
-DEMO = [
+DEFAULT_USERS = [
     ("admin", "Admin@123", "Super Admin", "Administrator Sistem"),
     ("operator01", "Operator@123", "Operator", "Operator Akademik"),
     ("GURU001", "Guru@123", "Guru/Wali Kelas", "Guru/Wali Kelas"),
@@ -52,10 +52,10 @@ DEMO = [
     ("NIS008", "Siswa@123", "Siswa", "Hafiz Akbar"),
     ("NIS009", "Siswa@123", "Siswa", "Intan Permata"),
     ("NIS010", "Siswa@123", "Siswa", "Joko Saputra"),
-    ("ORTU001", "Ortu@123", "Orang Tua/Wali", "Orang Tua/Wali Demo"),
+    ("ORTU001", "Ortu@123", "Orang Tua/Wali", "Orang Tua/Wali"),
 ]
 
-# 10 data awal untuk demo/pengujian: 4 Rendah, 3 Sedang, 3 Tinggi.
+# 10 data awal untuk penggunaan awal sistem: 4 Rendah, 3 Sedang, 3 Tinggi.
 # Nilai prediksi dibuat dari contoh baris dataset penelitian yang sudah diuji oleh model.
 SEED_STUDENTS = [
     ("NIS001", "Alya Putri", "VIII A", "ORTU001", "Rendah", 0.9524505581, 1),
@@ -229,7 +229,7 @@ def init_db():
             category TEXT, note TEXT, created_by TEXT
         );
         """)
-    for username, password, role, name in DEMO:
+    for username, password, role, name in DEFAULT_USERS:
         exists = c.execute("SELECT 1 FROM users WHERE username=?", (username,)).fetchone()
         if not exists:
             c.execute(
@@ -243,7 +243,7 @@ def init_db():
                 "INSERT INTO students(nis,name,class_name,parent_username,created_at) VALUES(?,?,?,?,?)",
                 (nis, name, class_name, parent_username or None, now)
             )
-            # Simpan satu riwayat prediksi awal agar 10 data demo langsung terlihat.
+            # Simpan satu riwayat prediksi awal agar 10 data awal langsung terlihat.
             c.execute(
                 "INSERT INTO predictions(username,nis,student_name,predicted_class,probability,created_at,input_json) VALUES(?,?,?,?,?,?,?)",
                 ("admin", nis, name, predicted_class, probability, now, json.dumps({"seed_source_row": source_idx, "seed_data": True}))
@@ -264,7 +264,7 @@ def login():
         <div class="login-school-sub">Prediksi dan Monitoring Prestasi Akademik Siswa</div></div>
       </div>
       <h1 class="login-welcome">SELAMAT DATANG DI PREDIKSI PRESTASI AKADEMIK SISWA 👋</h1>
-      <p>Sistem informasi akademik untuk membantu proses prediksi dan pemantauan prestasi belajar siswa secara digital, cepat, dan terukur.</p>
+      <p>Sistem berbasis web untuk memberikan informasi prediksi prestasi akademik siswa dan mendukung proses monitoring serta tindak lanjut oleh pihak sekolah.</p>
       <div class="hero-badge">🎯 19 variabel prediktor &nbsp;•&nbsp; 📊 3 kategori prestasi &nbsp;•&nbsp; 📍 Bekasi Timur</div>
     </div>
     """, unsafe_allow_html=True)
@@ -281,13 +281,13 @@ def login():
             if row and check_password(password,row["password_hash"]):
                 st.session_state.user=dict(row); st.session_state.menu="Dashboard"; st.rerun()
             else: st.error("ID pengguna atau kata sandi tidak sesuai.")
-        st.markdown('<div class="info-strip" style="margin-top:18px">💡 <b>Tips:</b> gunakan akun demo sesuai peran. Setelah masuk, menu <b>Panduan</b> menampilkan daftar akun pengujian.</div>',unsafe_allow_html=True)
+        st.markdown('<div class="info-strip" style="margin-top:18px">💡 <b>Tips:</b> gunakan akun pengguna sesuai peran. Setelah masuk, menu <b>Panduan</b> menampilkan daftar akun pengujian.</div>',unsafe_allow_html=True)
     with right:
         st.markdown('<div class="section-title" style="margin-top:0">✨ Fitur Utama</div>',unsafe_allow_html=True)
         features=[("🎯","Prediksi Prestasi","Klasifikasi kategori berdasarkan 19 variabel.","linear-gradient(90deg,#2346a8,#4f83e8)"),("📈","Perkembangan","Riwayat prediksi dan catatan perkembangan siswa.","linear-gradient(90deg,#0ea5a0,#22c7d6)"),("💬","Konsultasi","Media komunikasi antara siswa, orang tua, guru, dan operator.","linear-gradient(90deg,#7255d4,#9a7cf0)"),("📊","Evaluasi Model","Metrik performa dan confusion matrix model.","linear-gradient(90deg,#1498d0,#55b8f3)")]
         for icon,title,desc,grad in features:
             st.markdown(f"""<div class="panel" style="padding:0;overflow:hidden;margin-bottom:12px"><div style="height:7px;background:{grad}"></div><div style="padding:16px 18px;display:flex;gap:12px;align-items:center"><div class="fs-icon" style="background:#eef3ff">{icon}</div><div><b style="color:var(--ink);font-size:14px">{title}</b><div class="small-muted" style="margin-top:3px">{desc}</div></div></div></div>""",unsafe_allow_html=True)
-    st.markdown('<div class="footer-note login-footer">Prototipe Penelitian Untuk Prediksi Prestasi Akademik Siswa</div>',unsafe_allow_html=True)
+    st.markdown('<div class="footer-note login-footer">Sistem Prediksi Prestasi Akademik Siswa</div>',unsafe_allow_html=True)
 
 if "user" not in st.session_state:
     login()
@@ -432,7 +432,7 @@ if menu == "Dashboard":
     m = meta["metrics"]
     cols = st.columns(4)
     cards = [
-        ("Data Penelitian", f"{meta['dataset_rows']:,}".replace(",","."), "baris dataset sekunder"),
+        ("Data Model", f"{meta['dataset_rows']:,}".replace(",","."), "baris dataset sekunder"),
         ("Prediktor", str(len(meta["predictors"])), "variabel input model"),
         ("Accuracy", f"{m['accuracy']:.2%}", "hasil pada data uji"),
         ("F1-Score", f"{m['f1_score']:.2%}", "weighted"),
@@ -440,7 +440,7 @@ if menu == "Dashboard":
     for col,(a,b,c) in zip(cols,cards):
         with col: st.markdown(metric_card(a,b,c), unsafe_allow_html=True)
 
-    st.markdown('<div class="section-title">🎯 Ringkasan Kategori Penelitian</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">🎯 Ringkasan Kategori Prediksi</div>', unsafe_allow_html=True)
     dist = meta["class_distribution"]
     total = sum(dist.values())
     c1,c2,c3 = st.columns(3)
@@ -455,15 +455,15 @@ if menu == "Dashboard":
             st.markdown(
                 f'<div class="category"><span class="dot {dot}"></span><b>{cat}</b>'
                 f'<div style="font-size:27px;font-weight:850;margin-top:8px">{num:,}</div>'
-                f'<div class="small-muted">{pct:.2%} dari dataset • rentang penelitian {rng}</div></div>'.replace(",","."),
+                f'<div class="small-muted">{pct:.2%} dari dataset • rentang kategori {rng}</div></div>'.replace(",","."),
                 unsafe_allow_html=True
             )
-    st.markdown('<div class="info-strip" style="margin-top:14px">ℹ️ Kategori merupakan aturan penelitian berdasarkan <i>Exam_Score</i> pada dataset sekunder, bukan standar penilaian resmi sekolah.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="info-strip" style="margin-top:14px">ℹ️ Kategori prediksi ditentukan berdasarkan <i>Exam_Score</i> pada dataset model dan bukan merupakan standar penilaian resmi sekolah.</div>', unsafe_allow_html=True)
 
     st.markdown('<div class="section-title">📊 Distribusi Data</div>', unsafe_allow_html=True)
     chart_df = pd.DataFrame({"Jumlah": [dist["Rendah"],dist["Sedang"],dist["Tinggi"]]}, index=["Rendah","Sedang","Tinggi"])
     st.bar_chart(chart_df, height=300)
-    st.caption("Gunakan grafik interaktif untuk membandingkan jumlah data pada setiap kategori penelitian.")
+    st.caption("Gunakan grafik interaktif untuk melihat distribusi data pada setiap kategori prediksi.")
 
     st.markdown('<div class="section-title">🧭 Informasi Sistem</div>', unsafe_allow_html=True)
     a,b,c = st.columns(3)
@@ -569,7 +569,7 @@ elif menu == "Prediksi Prestasi":
     hero("🔎 Prediksi Prestasi Siswa", f"Masukkan {len(meta['predictors'])} variabel prediktor untuk memperoleh kategori hasil prediksi dan probabilitas model.", "🎯 Hasil: Rendah • Sedang • Tinggi")
     c = conn()
     # Least privilege: role Siswa hanya boleh memprediksi untuk dirinya sendiri
-    # (akun Siswa dibuat dengan username == NIS, lihat DEMO/init_db).
+    # (akun Siswa dibuat dengan username == NIS, lihat data pengguna awal pada proses inisialisasi).
     # Role lain (Operator/Guru/Wali Kelas/Super Admin) tetap melihat seluruh daftar siswa
     # sesuai kewenangannya masing-masing (tidak diubah).
     if role == "Siswa":
@@ -824,7 +824,7 @@ elif menu == "Perkembangan":
             a,b,c = st.columns(3)
             with a: rec_date = st.date_input("Tanggal", value=datetime.now().date())
             with b: rec_nis = st.text_input("NIS", value="NIS001")
-            with c: rec_name = st.text_input("Nama Siswa", value="Siswa Demo")
+            with c: rec_name = st.text_input("Nama Siswa", value="Siswa Baru")
             category = st.selectbox("Kategori", ["Rendah","Sedang","Tinggi"])
             note = st.text_area("Catatan", placeholder="Tuliskan catatan perkembangan secara singkat...")
             save = st.form_submit_button("Simpan Catatan")
@@ -963,9 +963,9 @@ else:
     role_df = pd.DataFrame([(r,", ".join(v)) for r,v in ROLES.items()],columns=["Peran","Menu yang dapat diakses"])
     st.dataframe(role_df,use_container_width=True,hide_index=True)
 
-    st.markdown('<div class="section-title">🔑 Akun Demo</div>',unsafe_allow_html=True)
-    demo_df = pd.DataFrame(DEMO,columns=["ID Pengguna","Password Demo","Peran","Nama"])
-    st.dataframe(demo_df,use_container_width=True,hide_index=True)
-    st.warning("Akun di atas hanya untuk pengujian/demo. Ganti password dan gunakan konfigurasi keamanan yang sesuai sebelum deployment nyata.")
+    st.markdown('<div class="section-title">🔑 Akun Pengguna</div>',unsafe_allow_html=True)
+    users_df = pd.DataFrame(DEFAULT_USERS,columns=["ID Pengguna","Password","Peran","Nama"])
+    st.dataframe(users_df,use_container_width=True,hide_index=True)
+    st.info("Akun awal disediakan untuk akses pengguna. Gunakan kredensial sesuai peran dan ubah pengaturan keamanan sebelum digunakan dalam lingkungan operasional.")
 
-st.markdown('<div class="footer-note">AkademikPredict • Implementasi Algoritma Naive Bayes untuk Prediksi Prestasi Akademik Siswa Berbasis Web</div>',unsafe_allow_html=True)
+st.markdown('<div class="footer-note">Prediksi Akademik • Implementasi Algoritma Naive Bayes untuk Prediksi Prestasi Akademik Siswa Berbasis Web</div>',unsafe_allow_html=True)
