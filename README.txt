@@ -1,28 +1,12 @@
-SISTEM PREDIKSI NON AKADEMIK - NAIVE BAYES
-===========================================
+SISTEM PREDIKSI NON AKADEMIK
+Implementasi Algoritma Naive Bayes untuk Prediksi Prestasi Non Akademik Siswa Berbasis Web
 
-Isi paket:
-- aplikasi.py                 : versi Non Akademik utama
-- app.py                      : salinan yang sama, untuk entrypoint Streamlit jika diperlukan
-- aplikasi_lama_backup.py     : backup aplikasi versi lama
-- model/gaussian_naive_bayes.joblib
-- model/preprocessor.joblib
-- model/metadata.json
-- data/StudentPerformanceFactors.csv
-- requirements.txt
-- PANDUAN_DATABASE_ONLINE.txt
-- .gitignore
+File utama: aplikasi.py
+Model: Gaussian Naive Bayes
+Database online: PostgreSQL/Supabase melalui DATABASE_URL pada Streamlit Secrets.
+Database lokal: SQLite sebagai fallback.
 
-CARA PINDAH KE GITHUB
-1. Upload/replace aplikasi.py pada repository lama.
-2. Upload folder model dan isinya.
-3. Upload folder data dan isinya.
-4. Pastikan requirements.txt ikut.
-5. Jangan menghapus konfigurasi Secrets DATABASE_URL di Streamlit.
-6. Jika Streamlit menggunakan aplikasi.py sebagai Main file, biarkan aplikasi.py.
-   Jika menggunakan app.py, file app.py sudah disediakan dengan isi yang sama.
+Jalankan lokal:
+streamlit run aplikasi.py
 
-CATATAN DATABASE
-Aplikasi mendukung SQLite lokal dan PostgreSQL/Supabase melalui DATABASE_URL.
-Secrets DATABASE_URL tidak disertakan dalam paket demi keamanan.
-Jangan memasukkan password Supabase ke GitHub.
+Catatan: file model dan preprocessor adalah pasangan yang sudah dilatih dan harus digunakan bersama.

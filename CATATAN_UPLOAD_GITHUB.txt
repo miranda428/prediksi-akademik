@@ -1,6 +1,7 @@
-PAKET FLAT UNTUK GITHUB
+PAKET FLAT FINAL NON AKADEMIK
 
-File utama: aplikasi.py
-Semua file sudah berada di folder utama (tanpa folder data/model/.streamlit).
-Jangan upload secrets.toml; file yang disertakan hanya secrets.toml.example.
-Di repository yang sudah ada, cukup replace aplikasi.py dan asset root jika diminta.
+Upload file-file di folder ini ke root repository GitHub.
+Jangan upload secrets.toml yang berisi password.
+Gunakan aplikasi.py sebagai file utama.
+Hapus app.py/praprosesor.joblib lama jika masih ada.
+Pastikan preprocessor.joblib menggunakan file dari paket ini.

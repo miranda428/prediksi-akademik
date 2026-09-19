@@ -1,32 +1,7 @@
-PANDUAN DATABASE ONLINE PERMANEN
-================================
+PANDUAN DATABASE ONLINE
 
-Tujuan:
-Aplikasi menggunakan SQLite saat dijalankan di laptop. Jika DATABASE_URL diisi, aplikasi otomatis beralih ke PostgreSQL online. Dengan demikian data tambah/edit/hapus tidak bergantung pada file sistem.db di server Streamlit.
-
-REKOMENDASI: Supabase (PostgreSQL) untuk prototipe/skripsi.
-
-LANGKAH 1 - Buat database online
-1. Buat akun Supabase.
-2. Buat project baru.
-3. Buka Connect pada project.
-4. Salin connection string PostgreSQL. Gunakan password database project dan connection/pooler yang disediakan Supabase.
-
-LANGKAH 2 - Hubungkan ke aplikasi
-Di Streamlit Community Cloud, buka Settings aplikasi > Secrets, lalu isi:
-
-DATABASE_URL = "postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslmode=require"
-
-Simpan. Aplikasi akan membuat tabel users, students, predictions, consultations, dan development secara otomatis saat pertama kali tersambung.
-
-LANGKAH 3 - Data awal
-Jika tabel students masih kosong, aplikasi otomatis membuat 10 siswa demo:
-4 Rendah, 3 Sedang, 3 Tinggi.
-Akun demo juga dibuat otomatis jika belum ada.
-
-CATATAN PENTING
-- Jangan mengunggah .streamlit/secrets.toml ke GitHub.
-- Jangan menaruh password database di app.py.
-- SQLite tetap tersedia untuk penggunaan lokal tanpa DATABASE_URL.
-- Saat online, CRUD siswa, prediksi, perkembangan, dan konsultasi tersimpan di PostgreSQL.
-- File sistem.db lokal tidak digunakan saat DATABASE_URL aktif.
+1. Di Streamlit Cloud buka Settings > Secrets.
+2. Isi DATABASE_URL dengan connection string PostgreSQL/Supabase.
+3. Jangan simpan password/database URL di GitHub.
+4. Aplikasi akan memakai PostgreSQL bila DATABASE_URL tersedia.
+5. Jika DATABASE_URL tidak tersedia, aplikasi menggunakan SQLite lokal.
