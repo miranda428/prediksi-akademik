@@ -1,0 +1,6 @@
+PAKET FLAT UNTUK GITHUB
+
+File utama: aplikasi.py
+Semua file sudah berada di folder utama (tanpa folder data/model/.streamlit).
+Jangan upload secrets.toml; file yang disertakan hanya secrets.toml.example.
+Di repository yang sudah ada, cukup replace aplikasi.py dan asset root jika diminta.
