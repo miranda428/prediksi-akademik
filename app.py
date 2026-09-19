@@ -8,7 +8,7 @@ from datetime import datetime
 # KONFIGURASI
 # ============================================================
 st.set_page_config(
-    page_title="Prediksi Akademik | Prediksi Prestasi",
+    page_title="Prediksi Non Akademik | Prediksi Prestasi",
     page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -38,8 +38,8 @@ ROLES = {
 }
 
 DEFAULT_USERS = [
-    ("admin", "Admin@123", "Administrator", "Administrator Sistem"),
-    ("operator01", "Operator@123", "Operator", "Operator Akademik"),
+    ("admin", "Admin@123", "Super Admin", "Administrator Sistem"),
+    ("operator01", "Operator@123", "Operator", "Operator Sistem"),
     ("GURU001", "Guru@123", "Guru/Wali Kelas", "Guru/Wali Kelas"),
     ("KEPSEK01", "Kepsek@123", "Kepala Sekolah", "Kepala Sekolah"),
     ("NIS001", "Siswa@123", "Siswa", "Alya Putri"),
@@ -261,10 +261,10 @@ def login():
       <div style="display:flex;align-items:center;gap:13px;position:relative">
         <div class="sb-logo">🏫</div>
         <div><div class="login-school-name">SMP GLOBAL PERSADA MANDIRI</div>
-        <div class="login-school-sub">Prediksi dan Monitoring Prestasi Akademik Siswa</div></div>
+        <div class="login-school-sub">Prediksi dan Monitoring Prestasi Non Akademik Siswa</div></div>
       </div>
-      <h1 class="login-welcome">SELAMAT DATANG DI PREDIKSI PRESTASI AKADEMIK SISWA 👋</h1>
-      <p>Sistem berbasis web untuk memberikan informasi prediksi prestasi akademik siswa dan mendukung proses monitoring serta tindak lanjut oleh pihak sekolah.</p>
+      <h1 class="login-welcome">SELAMAT DATANG DI PREDIKSI PRESTASI NON AKADEMIK SISWA 👋</h1>
+      <p>Sistem berbasis web untuk memberikan informasi prediksi prestasi non akademik siswa dan mendukung proses monitoring serta tindak lanjut oleh pihak sekolah.</p>
       <div class="hero-badge">🎯 19 variabel prediktor &nbsp;•&nbsp; 📊 3 kategori prestasi &nbsp;•&nbsp; 📍 Bekasi Timur</div>
     </div>
     """, unsafe_allow_html=True)
@@ -287,7 +287,7 @@ def login():
         features=[("🎯","Prediksi Prestasi","Klasifikasi kategori berdasarkan 19 variabel.","linear-gradient(90deg,#2346a8,#4f83e8)"),("📈","Perkembangan","Riwayat prediksi dan catatan perkembangan siswa.","linear-gradient(90deg,#0ea5a0,#22c7d6)"),("💬","Konsultasi","Media komunikasi antara siswa, orang tua, guru, dan operator.","linear-gradient(90deg,#7255d4,#9a7cf0)"),("📊","Evaluasi Model","Metrik performa dan confusion matrix model.","linear-gradient(90deg,#1498d0,#55b8f3)")]
         for icon,title,desc,grad in features:
             st.markdown(f"""<div class="panel" style="padding:0;overflow:hidden;margin-bottom:12px"><div style="height:7px;background:{grad}"></div><div style="padding:16px 18px;display:flex;gap:12px;align-items:center"><div class="fs-icon" style="background:#eef3ff">{icon}</div><div><b style="color:var(--ink);font-size:14px">{title}</b><div class="small-muted" style="margin-top:3px">{desc}</div></div></div></div>""",unsafe_allow_html=True)
-    st.markdown('<div class="footer-note login-footer">Sistem Prediksi Prestasi Akademik Siswa</div>',unsafe_allow_html=True)
+    st.markdown('<div class="footer-note login-footer">Sistem Prediksi Prestasi Non Akademik Siswa</div>',unsafe_allow_html=True)
 
 if "user" not in st.session_state:
     login()
@@ -301,12 +301,12 @@ role = u["role"]
 # ============================================================
 with st.sidebar:
     st.markdown('''
-    <div class="sb-brand"><div class="sb-logo">🏫</div><div><div class="sb-name">Prediksi Akademik</div><div class="sb-sub">SMP Global Persada Mandiri</div></div></div>
+    <div class="sb-brand"><div class="sb-logo">🏫</div><div><div class="sb-name">Prediksi Non Akademik</div><div class="sb-sub">SMP Global Persada Mandiri</div></div></div>
     ''',unsafe_allow_html=True)
     avatar="👑" if role=="Super Admin" else ("🧑‍🏫" if "Guru" in role else ("🎓" if role=="Siswa" else "👤"))
     st.markdown(f'''<div class="sb-profile"><div class="sb-avatar">{avatar}</div><div><div class="sb-profile-name">{u["name"]}</div><div class="sb-role">{role}</div></div></div>''',unsafe_allow_html=True)
     allowed=ROLES[role]; current=st.session_state.get("menu","Dashboard")
-    groups=[("🏠","Utama",["Dashboard"]),("📚","Akademik",["Prediksi Prestasi","Data Siswa"]),("📈","Monitoring",["Perkembangan"]),("💬","Komunikasi",["Konsultasi"]),("📊","Analisis",["Evaluasi Model","Data Penelitian"]),("⚙️","Administrasi",["Daftar Pengguna"]),("❓","Bantuan",["Panduan"])]
+    groups=[("🏠","Utama",["Dashboard"]),("📚","Non Akademik",["Prediksi Prestasi","Data Siswa"]),("📈","Monitoring",["Perkembangan"]),("💬","Komunikasi",["Konsultasi"]),("📊","Analisis",["Evaluasi Model","Data Penelitian"]),("⚙️","Administrasi",["Daftar Pengguna"]),("❓","Bantuan",["Panduan"])]
     for icon,title,items in groups:
         visible=[x for x in items if x in allowed]
         if not visible: continue
@@ -363,9 +363,9 @@ def form_section_head(icon, title, sub, accent_bg):
 
 def prediction_form():
     v = {}
-    # 1) DATA AKADEMIK — Hours_Studied, Attendance, Previous_Scores, Tutoring_Sessions
+    # 1) DATA NON AKADEMIK — struktur tampilan mengikuti sistem lama
     with st.container(border=True, key="fs_akademik"):
-        form_section_head("📚","Data Akademik","Riwayat belajar dan pencapaian akademik siswa","#EEF3FF")
+        form_section_head("📚","Data Non Akademik","Informasi faktor dan kegiatan non akademik siswa","#EEF3FF")
         c1,c2 = st.columns(2)
         with c1:
             v["Hours_Studied"] = st.number_input("Jam belajar / minggu", 0.0, 100.0, float(meta["numeric_stats"]["Hours_Studied"]["median"]), 1.0)
@@ -426,7 +426,7 @@ if menu == "Dashboard":
 
     hero(
         dashboard_title,
-        f"Dashboard {role} untuk memantau informasi dan prediksi prestasi akademik.",
+        f"Dashboard {role} untuk memantau informasi dan prediksi prestasi non akademik.",
         f"📌 {len(meta['predictors'])} variabel prediktor • Gaussian Naive Bayes • data uji 20%"
     )
     m = meta["metrics"]
@@ -773,7 +773,7 @@ elif menu == "Data Siswa":
 # PERKEMBANGAN
 # ============================================================
 elif menu == "Perkembangan":
-    hero("📈 Perkembangan Akademik", "Riwayat prediksi dan catatan perkembangan yang tersimpan pada sistem.", "📝 Catatan operasional • bukan data longitudinal dari dataset Kaggle")
+    hero("📈 Perkembangan Non Akademik", "Riwayat prediksi dan catatan perkembangan yang tersimpan pada sistem.", "📝 Catatan operasional • bukan data longitudinal dari dataset Kaggle")
     c = conn()
     # Least privilege — filter dilakukan di level query (SQL), bukan disembunyikan di UI:
     # - Siswa: hanya baris dengan nis miliknya sendiri (username == nis)
@@ -968,4 +968,4 @@ else:
     st.dataframe(users_df,use_container_width=True,hide_index=True)
     st.info("Akun awal disediakan untuk akses pengguna. Gunakan kredensial sesuai peran dan ubah pengaturan keamanan sebelum digunakan dalam lingkungan operasional.")
 
-st.markdown('<div class="footer-note">Prediksi Akademik • Implementasi Algoritma Naive Bayes untuk Prediksi Prestasi Akademik Siswa Berbasis Web</div>',unsafe_allow_html=True)
+st.markdown('<div class="footer-note">Prediksi Non Akademik • Implementasi Algoritma Naive Bayes untuk Prediksi Prestasi Non Akademik Siswa Berbasis Web</div>',unsafe_allow_html=True)
