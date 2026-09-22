@@ -1,7 +1,0 @@
-PANDUAN DATABASE ONLINE
-
-1. Di Streamlit Cloud buka Settings > Secrets.
-2. Isi DATABASE_URL dengan connection string PostgreSQL/Supabase.
-3. Jangan simpan password/database URL di GitHub.
-4. Aplikasi akan memakai PostgreSQL bila DATABASE_URL tersedia.
-5. Jika DATABASE_URL tidak tersedia, aplikasi menggunakan SQLite lokal.
