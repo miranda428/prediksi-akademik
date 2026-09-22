@@ -233,7 +233,7 @@ def init_db():
         exists = c.execute("SELECT 1 FROM users WHERE username=?", (username,)).fetchone()
         if not exists:
             c.execute(
-                "INSERT INTO users(username,password_hash,role,name) VALUES(?,?,?,?)",
+                "INSERT OR IGNORE INTO users (username,password_hash,role,name) VALUES(?,?,?,?)",
                 (username, hash_password(password), role, name)
             )
     if not c.execute("SELECT 1 FROM students").fetchone():
