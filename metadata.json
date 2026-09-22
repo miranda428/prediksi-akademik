@@ -1,0 +1,203 @@
+{
+  "dataset_name": "Student Performance Factors",
+  "dataset_rows": 6607,
+  "predictor_count": 19,
+  "predictors": [
+    "Hours_Studied",
+    "Attendance",
+    "Parental_Involvement",
+    "Access_to_Resources",
+    "Extracurricular_Activities",
+    "Sleep_Hours",
+    "Previous_Scores",
+    "Motivation_Level",
+    "Internet_Access",
+    "Tutoring_Sessions",
+    "Family_Income",
+    "Teacher_Quality",
+    "School_Type",
+    "Peer_Influence",
+    "Physical_Activity",
+    "Learning_Disabilities",
+    "Parental_Education_Level",
+    "Distance_from_Home",
+    "Gender"
+  ],
+  "numeric_features": [
+    "Hours_Studied",
+    "Attendance",
+    "Sleep_Hours",
+    "Previous_Scores",
+    "Tutoring_Sessions",
+    "Physical_Activity"
+  ],
+  "categorical_features": [
+    "Parental_Involvement",
+    "Access_to_Resources",
+    "Extracurricular_Activities",
+    "Motivation_Level",
+    "Internet_Access",
+    "Family_Income",
+    "Teacher_Quality",
+    "School_Type",
+    "Peer_Influence",
+    "Learning_Disabilities",
+    "Parental_Education_Level",
+    "Distance_from_Home",
+    "Gender"
+  ],
+  "imputation": {
+    "Teacher_Quality": "Medium",
+    "Parental_Education_Level": "High School",
+    "Distance_from_Home": "Near"
+  },
+  "target_rules": {
+    "Rendah": "Exam_Score <= 66",
+    "Sedang": "67 <= Exam_Score <= 69",
+    "Tinggi": "Exam_Score >= 70"
+  },
+  "class_distribution": {
+    "Rendah": 2882,
+    "Sedang": 2100,
+    "Tinggi": 1625
+  },
+  "train_rows": 5285,
+  "test_rows": 1322,
+  "test_ratio": 0.2,
+  "random_state": 42,
+  "tuning": {
+    "method": "fine-grained holdout validation on the fixed 80:20 split",
+    "var_smoothing": 0.000308
+  },
+  "metrics": {
+    "accuracy": 0.8479576399394856,
+    "precision": 0.8575586114538022,
+    "recall": 0.8479576399394856,
+    "f1_score": 0.8503783872482736
+  },
+  "confusion_matrix": [
+    [
+      498,
+      79,
+      0
+    ],
+    [
+      38,
+      356,
+      26
+    ],
+    [
+      5,
+      53,
+      267
+    ]
+  ],
+  "labels": [
+    "Rendah",
+    "Sedang",
+    "Tinggi"
+  ],
+  "options": {
+    "Parental_Involvement": [
+      "High",
+      "Low",
+      "Medium"
+    ],
+    "Access_to_Resources": [
+      "High",
+      "Low",
+      "Medium"
+    ],
+    "Extracurricular_Activities": [
+      "No",
+      "Yes"
+    ],
+    "Motivation_Level": [
+      "High",
+      "Low",
+      "Medium"
+    ],
+    "Internet_Access": [
+      "No",
+      "Yes"
+    ],
+    "Family_Income": [
+      "High",
+      "Low",
+      "Medium"
+    ],
+    "Teacher_Quality": [
+      "High",
+      "Low",
+      "Medium"
+    ],
+    "School_Type": [
+      "Private",
+      "Public"
+    ],
+    "Peer_Influence": [
+      "Negative",
+      "Neutral",
+      "Positive"
+    ],
+    "Learning_Disabilities": [
+      "No",
+      "Yes"
+    ],
+    "Parental_Education_Level": [
+      "College",
+      "High School",
+      "Postgraduate"
+    ],
+    "Distance_from_Home": [
+      "Far",
+      "Moderate",
+      "Near"
+    ],
+    "Gender": [
+      "Female",
+      "Male"
+    ]
+  },
+  "numeric_stats": {
+    "Hours_Studied": {
+      "min": 1.0,
+      "max": 44.0,
+      "median": 20.0,
+      "mean": 19.975329196306948
+    },
+    "Attendance": {
+      "min": 60.0,
+      "max": 100.0,
+      "median": 80.0,
+      "mean": 79.97744816104132
+    },
+    "Sleep_Hours": {
+      "min": 4.0,
+      "max": 10.0,
+      "median": 7.0,
+      "mean": 7.029060087785682
+    },
+    "Previous_Scores": {
+      "min": 50.0,
+      "max": 100.0,
+      "median": 75.0,
+      "mean": 75.07053125472983
+    },
+    "Tutoring_Sessions": {
+      "min": 0.0,
+      "max": 8.0,
+      "median": 1.0,
+      "mean": 1.4937187831088239
+    },
+    "Physical_Activity": {
+      "min": 0.0,
+      "max": 6.0,
+      "median": 3.0,
+      "mean": 2.9676101104888755
+    }
+  },
+  "research_location": "SMP Global Persada Mandiri",
+  "research_location_detail": "Jl. Mekar Sari No.5, RT.010/RW.003, Bekasi Jaya, Kec. Bekasi Timur, Kota Bekasi, Jawa Barat 17112",
+  "model_note": "Gaussian Naive Bayes final; held-out test evaluation; no cross-validation."
+}

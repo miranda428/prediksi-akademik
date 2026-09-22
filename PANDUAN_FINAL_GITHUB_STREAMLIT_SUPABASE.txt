@@ -1,0 +1,155 @@
+PANDUAN FINAL: COLAB -> GITHUB -> STREAMLIT -> SUPABASE
+========================================================
+
+TUJUAN
+Menjalankan sistem yang sudah diuji di Colab, menyimpan source code di GitHub,
+dan menjalankan versi online di Streamlit Community Cloud dengan database
+PostgreSQL/Supabase.
+
+BAGIAN 1 — GOOGLE COLAB
+------------------------
+
+A. TRAINING MODEL
+1. Buka 01_Pelatihan_Model_Naive_Bayes_Non_Akademik.ipynb.
+2. Jalankan cell dari atas ke bawah.
+3. Upload StudentPerformanceFactors.csv jika diminta.
+4. Pastikan proses menghasilkan:
+   - gaussian_naive_bayes.joblib
+   - preprocessor.joblib
+   - metadata.json
+5. Jangan mengganti angka hasil skripsi secara manual.
+
+B. MENJALANKAN APLIKASI
+1. Buka 02_Jalankan_Streamlit_Non_Akademik_di_Colab.ipynb.
+2. Upload ZIP paket final.
+3. Jalankan cell dari atas ke bawah.
+4. Pastikan pemeriksaan menunjukkan:
+   STREAMLIT AKTIF
+   Status: 200
+5. Cloudflare Quick Tunnel akan menampilkan URL trycloudflare.com.
+6. Buka URL tersebut.
+7. Uji Login -> Prediksi -> Jalankan Prediksi -> Konsultasi.
+8. Jika sudah selesai, jalankan cell penghentian server.
+
+CATATAN COLAB
+- URL Cloudflare bersifat sementara.
+- Colab bukan tempat penyimpanan online permanen.
+- Jangan memasukkan password Supabase ke notebook publik.
+- Tidak perlu LocalTunnel.
+
+BAGIAN 2 — GITHUB
+------------------
+
+Upload ISI folder 03_Aplikasi_GitHub_Streamlit ke ROOT repository.
+Jangan upload folder induk sehingga menjadi folder bertingkat.
+
+ROOT repository yang benar:
+
+aplikasi.py
+requirements.txt
+gaussian_naive_bayes.joblib
+preprocessor.joblib
+metadata.json
+StudentPerformanceFactors.csv
+README.txt
+README_COLAB_STREAMLIT.txt
+PANDUAN_DATABASE_ONLINE.txt
+PANDUAN_FINAL_GITHUB_STREAMLIT_SUPABASE.txt
+.gitignore
+
+Jangan upload:
+.streamlit/secrets.toml
+sistem.db
+password atau credential database
+
+SETELAH UPLOAD
+1. Buka aplikasi.py di GitHub.
+2. Pastikan isinya adalah versi Konsultasi yang sudah diperbaiki.
+3. Buka requirements.txt.
+4. Pastikan ada streamlit, pandas, numpy, scikit-learn, joblib,
+   dan psycopg2-binary dengan versi yang sudah dipin.
+5. Pastikan file .joblib dan metadata.json ada di root.
+
+BAGIAN 3 — STREAMLIT COMMUNITY CLOUD
+------------------------------------
+
+1. Masuk ke Streamlit Community Cloud.
+2. Pilih Create app.
+3. Pilih repository GitHub.
+4. Branch: main.
+5. Main file / Entrypoint: aplikasi.py.
+6. Deploy.
+
+Jika aplikasi lama sudah terhubung:
+- jangan membuat aplikasi baru kecuali diperlukan;
+- pastikan Main file menunjuk ke aplikasi.py;
+- lakukan redeploy setelah perubahan dependency.
+
+BAGIAN 4 — SUPABASE
+--------------------
+
+1. Buka project Supabase.
+2. Pilih Connect.
+3. Pilih koneksi PostgreSQL yang sesuai.
+4. Untuk lingkungan cloud yang IPv4-only, shared pooler adalah pilihan
+   yang sesuai; gunakan URI persis dari Supabase.
+5. Jangan mengetik host pooler sendiri.
+6. Jangan menaruh password di aplikasi.py.
+
+BAGIAN 5 — STREAMLIT SECRETS
+----------------------------
+
+Pada Settings aplikasi -> Secrets, masukkan SATU variabel:
+
+DATABASE_URL = "postgresql://USER:PASSWORD@HOST:PORT/postgres"
+
+Gunakan connection string yang disalin dari Supabase.
+Jika URI Supabase sudah menyertakan parameter SSL, pertahankan format dari
+Supabase. Jangan membagikan isi Secrets ke chat, GitHub, atau screenshot.
+
+Setelah Save, Streamlit akan me-restart aplikasi.
+
+BAGIAN 6 — UJI DATABASE ONLINE
+------------------------------
+
+Setelah aplikasi online:
+1. Login.
+2. Buka Data Siswa.
+3. Tambah satu data uji.
+4. Pastikan data muncul.
+5. Refresh halaman.
+6. Pastikan data masih ada.
+7. Uji prediksi.
+8. Uji Konsultasi.
+9. Uji balasan.
+
+Jika data tetap ada setelah refresh/restart, berarti aplikasi sudah memakai
+PostgreSQL online.
+
+BAGIAN 7 — CEK FINAL SEBELUM DIKUMPULKAN
+----------------------------------------
+
+[ ] aplikasi.py benar
+[ ] model .joblib ada
+[ ] preprocessor.joblib ada
+[ ] metadata.json ada
+[ ] requirements.txt ada
+[ ] GitHub repository berisi file pada root
+[ ] Main file Streamlit = aplikasi.py
+[ ] DATABASE_URL tersimpan di Streamlit Secrets
+[ ] secrets.toml tidak ada di GitHub
+[ ] sistem.db tidak ada di GitHub
+[ ] Login berhasil
+[ ] Prediksi berhasil
+[ ] Hasil Rendah/Sedang/Tinggi muncul
+[ ] Evaluasi model tampil
+[ ] Matriks Konfusi tampil
+[ ] Konsultasi kirim berhasil
+[ ] Balasan konsultasi berhasil
+[ ] Data online tetap tersimpan setelah refresh
+
+JIKA ERROR
+-----------
+Jangan mengubah banyak file sekaligus.
+Kirim screenshot error lengkap + sebutkan langkah yang sedang dijalankan.
+Periksa terlebih dahulu log Streamlit dan nama file entrypoint.
