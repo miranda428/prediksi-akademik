@@ -1,7 +1,0 @@
-PAKET FLAT FINAL NON AKADEMIK
-
-Upload file-file di folder ini ke root repository GitHub.
-Jangan upload secrets.toml yang berisi password.
-Gunakan aplikasi.py sebagai file utama.
-Hapus app.py/praprosesor.joblib lama jika masih ada.
-Pastikan preprocessor.joblib menggunakan file dari paket ini.
