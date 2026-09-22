@@ -1,9 +1,0 @@
-# Versi dipin agar konsisten dengan model Gaussian Naive Bayes yang sudah dilatih
-# (scikit-learn harus sama persis dengan versi saat model di-fit, untuk menghindari
-# error/inkonsistensi saat joblib.load memuat model & preprocessor).
-streamlit==1.63.0
-pandas==3.0.2
-numpy==2.4.4
-scikit-learn==1.8.0
-joblib==1.5.3
-psycopg2-binary==2.9.13
